@@ -1,0 +1,30 @@
+== Introduction ==
+
+==== Introduction ====
+
+* Analiza w przestrzeni czas--częstość
+
+* Algorytm Adaptatywny Matching Pursuit
+
+* Porównanie metod
+
+* Założenia i implementacja normy L2 i L1 w MP
+
+==== Plan wykładu ====
+
+\tableofcontents
+
+== Klasyczne metody ==
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection]
+
+=== Zasada nieoznaczoności ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Tłumaczenie intuicyjne ====
+qwe
