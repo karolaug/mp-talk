@@ -8,6 +8,11 @@ Wykład przedstawiony dla studentów studiów II stopnia fizyki medycznej oraz n
 
 Karol Auguštin <<karol@augustin.pl>>
 
+## Upcoming events
+
+* [Warsaw, Poland, November 2012] Lecture for Neuroinformatics Students
+
+
 ## Dependencies
 
 The talk is made with:
