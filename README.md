@@ -29,6 +29,7 @@ http://karolaugustin.pl/mp-talk)
 All Content is...
 
 * Copyright 2009-2012 Karol Auguštin <<karol@augustin.pl>>
+* Copyright 2009-2012 Zakład Fizyki Biomedycznej, Wydział Fiyzki, Uniwersytet Warszawski http://brain.fuw.edu.pl/wiki
 * Licensed under the terms of [Attribution-ShareAlike 3.0 Unported  (CC BY-SA 3.0) ](http://creativecommons.org/licenses/by-sa/3.0/)
 
 ### Included Dependencies
