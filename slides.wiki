@@ -7,7 +7,7 @@
 
 * Algorytm Adaptatywny Matching Pursuit
 
-* Założenia i implementacja normy L2 i L1 w MP
+* Założenia i implementacja normy $l_2$ i $l_1$ w MP
 
 ==== Plan wykładu ====
 
@@ -192,6 +192,11 @@ Moduł współczynnika $c_{\xi, t_0}$ mówi o zawartości energii sygnału $s(t)
 <<<images/spec_0.jpg, scale=1>>>
 [figure]>
 
+==== Spektrogram -- dekompozycja sygnału ====
+<[figure]
+<<<images/stft_atom.png, scale=0.3>>>
+[figure]>
+
 
 
 ==== Spektrogram -- przykład ====
@@ -215,7 +220,7 @@ Spektrogram jest reprezentacją kwadratową. Spektrogram sumy sygnałów nie jes
 \tableofcontents[currentsection,currentsubsection]
 
 ==== Ciągła transformata falkowa ====
-Ciągła transformacja falkowa (ang. ,,Continuous Wavelet Transform'', CWT'') dana jest wzorem:
+Ciągła transformacja falkowa (ang. ,,Continuous Wavelet Transform, CWT'') dana jest wzorem:
 $$P_x(t,a;\Psi)= \int_{-\infty}^{\infty}{x(s)\Psi^*_{t,a}(s) ds}$$
 gdzie
 $$ \Psi_{t,a}(s) = \frac{1}{\sqrt{|a|}} \Psi\left(\frac{s-t}{a}\right)$$
