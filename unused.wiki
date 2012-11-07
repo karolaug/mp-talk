@@ -1,1 +1,8 @@
 <!-- unused slides -->
+
+==== Częstość i amplituda chwilowa ====
+<[figure]
+<<<images/freq_amp.png, scale=0.12>>>
+[figure]>
+
+Nie ma możliwości określenia częstości i amplitudy chwilowej dla sygnału o wielu częstotliwościach.

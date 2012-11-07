@@ -1,12 +1,11 @@
-== Introduction ==
+== Wstęp ==
 
-==== Introduction ====
+==== Wstęp ====
+* Zasada nieozanczoności w analizie sygnałów
 
-* Analiza w przestrzeni czas--częstość
+* Klasyczne metody analizy czas-częstość
 
 * Algorytm Adaptatywny Matching Pursuit
-
-* Porównanie metod
 
 * Założenia i implementacja normy L2 i L1 w MP
 
@@ -14,17 +13,500 @@
 
 \tableofcontents
 
-== Klasyczne metody ==
+== Zasada nieozanczoności ==
 
 ==== Plan wykładu ====
 
 \tableofcontents[currentsection]
 
-=== Zasada nieoznaczoności ===
+==== Zasada nieoznaczoności w mechanice kwantowej ====
+Zasada nieoznaczoności (Heisenberga) w mechanice kwantowej nie opisuje
+granic dokładności pomiarów, lecz fakt, że cząstka ,,nie może
+jednocześnie'' mieć dobrze określonych np. pędu i położenia:
+
+$$\Delta x \Delta p_x \geq h/2\pi$$
+
+gdzie $\Delta$ odpowiada wariancji rozkładu prawdopodobieństwa wokół
+średniej.
+
+Podobnie w analizie sygnałów.
+
+
+=== Tłumaczenie formalne ===
 
 ==== Plan wykładu ====
 
 \tableofcontents[currentsection,currentsubsection]
 
+==== Tłumaczenie formalne ====
+Iloczyn wariancji w czasie $\sigma_t^2$ i w częstości
+kołowej $\sigma_\omega^2$ dla funkcji $s\in
+L^2(\mathbb{R})$ jest nie mniejszy niż $\frac{1}{4}$
+$$\sigma^2_t \sigma^2_\omega \ge \frac{1}{4}$$ 
+
+gdzie: 
+
+$$ \sigma^2_t = \frac{1}{\|s(t)\|^2} \int_{-\infty}^{\infty}(t-u)^2|s(t)|^2 dt $$ 
+$$ \sigma^2_\omega = \frac{1}{2\pi \|s(t)\|^2} \int_{-\infty}^{\infty}(\omega-\xi)^2|\hat{s}(\omega)|^2 d\omega $$ 
+
+
+==== Tłumaczenie formalne cd ====
+gdzie: 
+$$u = \frac{1}{\|s(t)\|^2} \int_{-\infty}^{\infty} t |s(t)|^2 dt$$
+$$ \xi = \frac{1}{2\pi\|s(t)\|^2}
+\int_{-\infty}^{\infty} \omega |\hat{s}(\omega)|^2 d\omega$$
+
+Dla częstości $f=\frac{1}{T}$ mamy:
+$$
+\sigma^2_t \sigma^2_f \ge \frac{1}{16\pi^2}
+$$
+
+=== Tłumaczenie intuicyjne ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+
 ==== Tłumaczenie intuicyjne ====
-qwe
+<[figure]
+<<<images/zasada1.png, scale=0.12>>>
+[figure]>
+W miarę wzrostu czasu obserwacji spada dokładność jego wyznaczania, przy jego skracaniu spada dokładność wyznaczania częstości.
+
+
+==== Tłumaczenie intuicyjne cd. ====
+<[figure]
+<<<images/zasada2.jpg, scale=0.6>>>
+[figure]>
+
+Długi sinus (na górze) ma dobrze określoną częstość, ale nie możemy wiele powiedzieć o jego położeniu w czasie (ciągła linia). Gdy zawężamy (określamy) przedział czasu, w którym sygnał występuje (dolne wykresy), coraz trudniej mówić o częstości.
+
+== Klasyczne metody analizy czas-częstość ==
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection]
+
+=== Transformata Wignera-de Ville'a ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Transformata Wignera-de Ville'a ====
+Dla sygnałów niestacjonarnych moc widmowa nie musi być stała w czasie,
+gdyż zawartość częstości może się zmieniać. Analiza tego typu sytuacji 
+wymaga śledzenia zmian gęstości energii sygnału jednocześnie w czasie i częstości.
+Pierwszym pomysłem będzie usunięcie ze wzoru na moc widmową w twierdzeniu Wienera-Chinczyna:
+
+$$\int e^{-i\omega \tau} \left( \int f(t) f(t+\tau) dt \right) d\tau$$
+
+Otrzymamy funkcję zależną od czasu i częstości; transformatę Wignera-de~Ville'a:
+$$\mathcal{W}_s(t, \omega)=\int s \bigl (t + \frac{\tau}{2} \bigr)\;  
+\overline{ s\bigl(t- \frac{\tau}{2} \bigr )\; } e^{- i \omega \tau } d \tau  
+$$
+
+==== Transformata Wignera-de Ville'a  cd.====
+$$\mathcal{W}_s(t, \omega)=\int s \bigl (t + \frac{\tau}{2} \bigr)\;  
+\overline{ s\bigl(t- \frac{\tau}{2} \bigr )\; } e^{- i \omega \tau } d \tau  
+$$
+
+<[block]{Zalety}
+* zachowuje energię sygnału, 
+* wycałkowana po czasie $\mathcal{W}_s$ daje kwadrat modułu transformaty Fouriera; $|s(\omega)|^2$
+* wycałkowana po częstości; $|s(t)|^2$
+[block]>
+<[block]{Wady}
+* może być ujemna
+* zawiera ,,wyrazy mieszane''
+[block]>
+%==== Przesunięcie w czasie i częstości ====
+%Transformata Wignera-de Ville'a:
+
+%* zachowuje przesunięcia w czasie i w częstości
+%$$y(t) = x(t-t_0) \Rightarrow W_y(t,f) = W_x(t-t_0,f)$$
+%$$y(t) = x(t)e^{i 2 \pi f_0 t} \Rightarrow W_y(t,f) = W_x(t,f-f_0)$$
+%* zachowuje skalowania
+%$$y(t)=\sqrt{k}x(kt) \Rightarrow W_y(t,f) = W_x(kt, f/k)$$
+
+
+==== Przykład ====
+<[figure]
+<<<images/wv_1.png, scale=0.5>>>
+[figure]>
+
+==== Wyrazy mieszane ====
+<[block]{Ograniczenie}
+Problem ten występuje we wszystkich kwadratowych
+reprezentacjach energii sygnału w przestrzeni czas-częstość; 
+w transformacie Wignera efekt ten jest najbardziej widoczny.
+[block]>
+
+Zgodnie ze wzorem na kwadrat sumy: 
+$$(a+b)^2=a^2+b^2+2ab$$
+Obliczając kwadratową transformatę sygnału złożonego z sumy elementów $a$ i $b$,
+otrzymujemy reprezentację występujących w sygnale składników $a$ i $b$
+oraz wyraz mieszany $2ab$, który może pojawić się w takim rejonie
+przestrzeni czas-częstość, że w odpowiadającym mu przedziale 
+czasu w sygnale brak jest jakiejkolwiek aktywności.
+
+==== Wyrazy mieszane - ilustracja ====
+
+<[figure]
+<<<images/wv_2.png, scale=0.27>>>
+[figure]>
+
+
+==== Wyrazy mieszane - uśrednianie ====
+* Dla zminimalizowania tego efektu możemy wykorzystać spostrzeżenie, że wyrazy mieszane zwykle silnie oscylują, więc lokalne uśrednienie rozkładu (po czasie i częstości) powinno zmniejszyć ich wkład. 
+
+* Różne realizacje tego uśredniania tworzą bogatą klasę rozkładów o zredukowanych interferencjach (ang.  ,,reduced interference distributions, RID'' ), z których każdy może dawać lepsze od innych rezultaty dla pewnej klasy sygnałów.
+
+* W każdym przypadku mamy im silniejsze uśrednianie tym gorsza rozdzielczość.
+
+==== Wyrazy mieszane - uśrednianie ====
+<[figure]
+<<<images/wv_3.png, scale=0.27>>>
+[figure]>
+
+=== Spektrogram ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+
+
+==== Spektrogram -- oknowana transformata Fouriera ====
+Przepis na krótkoczasową transformatę Fouriera
+(,,Short-Time Fourier Transform, STFT'' ) polega na wycinaniu kolejnych odcinków sygnału
+z pomocą okna $g(t)$ ($\|g\|=1$) i obliczaniu ich transformaty Fouriera. Inaczej można to opisać jako iloczyny
+skalarne sygnału z oknem $g$ modulowanym częstością $\xi$:
+$$c_{\xi, t_0} = \int s(t) g(t-t_0) e^{i\xi t} dt$$
+
+Moduł współczynnika $c_{\xi, t_0}$ mówi o zawartości energii sygnału $s(t)$ w okolicy częstości $\xi$ i czasu $t_0$.
+
+==== Spektrogram -- dekompozycja sygnału ====
+<[figure]
+<<<images/spec_0.jpg, scale=1>>>
+[figure]>
+
+
+
+==== Spektrogram -- przykład ====
+<[figure]
+<<<images/spec_1.png, scale=0.27>>>
+[figure]>
+
+Co z wyrazami mieszanymi?
+
+==== Wyrazy mieszane ====
+Spektrogram jest reprezentacją kwadratową. Spektrogram sumy sygnałów nie jest sumą spektrogramów sygnałów składowych, jest tam jeszcze coś: 
+<[figure]
+<<<images/spec_2.png, scale=0.25>>>
+[figure]>
+%Spektrogramy sygnału będącego sumą dwóch funkcji Gabora o częstościach różniących się o 2 Hz i położeniach różniących się o wielokrotności 0,1 s.
+
+=== Ciągła transformata falkowa ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Ciągła transformata falkowa ====
+Ciągła transformacja falkowa (ang. ,,Continuous Wavelet Transform'', CWT'') dana jest wzorem:
+$$P_x(t,a;\Psi)= \int_{-\infty}^{\infty}{x(s)\Psi^*_{t,a}(s) ds}$$
+gdzie
+$$ \Psi_{t,a}(s) = \frac{1}{\sqrt{|a|}} \Psi\left(\frac{s-t}{a}\right)$$
+Gdzie $a$ jest skalą. Od falki $\Psi$ wymagamy żeby miała średnią $0$.
+
+Transformację tę można interpretować jako rzutowanie sygnału na kolejne wersje falki $\Psi$ przesunięte o $t$ i przeskalowane o $a$. 
+
+==== Falki ====
+Falka to funkcja $\psi \in L^2(\mathbb{R})$ o zerowej średniej:
+$$\int_{-\infty}^{\infty}\psi(t) dt = 0$$
+
+Reprezentacja konstruowana jest ze ,,współczynników falkowych'';
+iloczynów skalarnych sygnału ze znormalizowanymi
+($\|\psi\|=1$) funkcjami generowanymi jako przesunięcia i
+rozciągnięcia falki $\psi$: 
+$$c_{s,u} = \langle s \psi_{s,u}\rangle = \int_{-\infty}^{\infty} s(t)
+\psi (\frac{t-u}{s}) dt$$
+
+Transformacja odwrotna istnieje, jeśli zbiór falek
+$\left\{\psi_i\right\}_{i\in I}$ tworzy ramę
+(ang. ,,frame''): 
+$$\forall_f \exists_{A>0, B<\infty} A\|s\|^2 \le \sum_{i\in I} |\langle\psi_i, s\rangle|^2 \le B\|s\|^2$$
+
+
+==== Ciągła transformata falkowa cd. ====
+
+Inne spojrzenie na transformację falkową uwidacznia się gdy połączymy dwa powyższe wzory:
+$$P_x(t,a;\Psi)=  \frac{1}{\sqrt{|a|}}\int_{-\infty}^{\infty}{x(s) \Psi^*\left(\frac{s-t}{a}\right) ds}$$
+Tu widać, że dla ustalonej skali $a$ transformacja falkowa jest splotem sygnału z falką o skali $a$.
+
+
+Ten sposób myślenia o transformacji falkowej umożliwia zastosowanie szybkiego algorytmu obliczeniowego bazującego na tym, że splot w dziedzinie czasu odpowiada mnożeniu w dziedzinie częstości.
+
+
+==== Skalogram ====
+Podobnie jak dla STFT i spektrogramu, możemy dla CWT wprowadzić pojęcie skalogramu, będącego estymatą gęstości energii w przestrzeni czas-skala.
+$$S_x(t,a;\Psi)=\left| P_x(t,a;\Psi)\right|^2$$
+
+Dla falek, które są dobrze skupione wokół częstości $f$ dla skali $a=1$ można wprowadzić utożsamienie $f=\frac{f_0}{a}$.
+
+Utożsamienie to pozwala przekształcić reprezentację czas-skala w reprezentację czas-częstość:
+$$S_x(t,f;\Psi)=\left| P_x(t,f_0/f;\Psi)\right|^2$$
+
+==== Skalogram -- dekompozycja sygnału ====
+<[figure]
+<<<images/cwt_1.png, scale=0.5>>>
+[figure]>
+
+
+==== Skalogram -- przykład ====
+<[figure]
+<<<images/cwt_2.png, scale=0.27>>>
+[figure]>
+Co z wyrazami mieszanymi?
+
+==== Skalogram -- wyrazy mieszane ====
+<[figure]
+<<<images/cwt_3.png, scale=0.27>>>
+[figure]>
+
+== Matching Pursuit ==
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection]
+
+=== Założenia ogólne ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Założenia ogólne ====
+* Dopasowanie kroczące (ang. matching pursuit, MP) jest procedurą polegającą na rozłożeniu sygnału na funkcje składowe pochodzące z określonego zbioru funkcji (słownika).
+* Słowniki wykorzystywane w metodach czas-częstość często składają się z funkcji Gabora tj. funkcji sinus modulowanej funkcją Gaussa. 
+* MP jest algorytmem iteracyjnym. 
+* W pierwszym kroku dopasowywana jest funkcja spełniająca '''określone~założenia'''.
+* W każdym następnym kroku funkcja jest analogicznie dopasowywana do residuum sygnału, pozostałego po odjęciu wyniku poprzedniej iteracji.
+
+==== Dyskretny słownik funkcji Gabora ====
+Funkcję (atom) słownika czasowo-częstościowego  
+można wyrazić jako translację ($u$), rozciągnięcie ($s$) i modulację   
+($\omega$) funkcji okna $g(t) \in L^2(R)$  
+$$  
+g_\gamma (t) = \frac {1} {\sqrt{s}} g \left ( \frac {t - u} {s} \right )  
+e^{i \omega t}  
+$$ 
+Optymalną lokalizację w przestrzeni czas-częstość otrzymujemy dla Gaussowskiej  
+obwiedni $g(t)$, co w przypadku analizy sygnałów o wartościach rzeczywistych  
+daje słownik rzeczywistych atomów Gabora:  
+$$
+g_{\gamma(t)}=K(\gamma,\phi ) e^{-\pi\left( \frac{t-u}{s}\right)^2}  
+\sin(\omega (t-u)+\phi ))  
+$$
+$K(\gamma, \phi)$ zapewnia normalizację $||g_{\gamma,\phi}||=1$.
+
+==== Dyskretny słownik funkcji Gabora ====
+Pomimo, że analizujemy sygnały dyskretne,
+parametry dopasowywanych funkcji mogą przyjmować wartości z
+przedziałów ciągłych.  W praktyce korzystamy z relatywnie małych
+podzbiorów przestrzeni parametrów:
+$$\gamma~=~\{u,~s,~\omega\}$$
+
+Faza $\Phi$ jest zwykle przedmiotem osobnej optymalizacji dla każdej dopasowywanej funkcji.
+
+=== Definicja normy ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+==== Definicja normy ====
+Odwzorowanie $\|\cdot\|\colon X \to [0, \infty)$ spełniające, dla wszystkich elementów $x,y$ przestrzeni $X$ i skalarów $\alpha$ z ciała $K$, warunki:
+
+* niezdegenerowania, $\|x\| = 0 \Rightarrow x = 0$
+* dodatniej jednorodności, $\|\alpha x\| = |\alpha| \|x\|$
+* nierówności trójkąta (podaddytywności), $\|x + y\| \leqslant \|x\| + \|y\|$
+
+nazywa się '''normą''' (w przestrzeni $X$), a przestrzeń $X$ z określoną normą $\|\cdot\|$ nazywa się '''przestrzenią unormowaną'''. 
+
+=== Norma w algorytmie MP ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Norma w algorytmie MP ====
+* Norma w algorytmie MP używana jest do określenia elementu słownika, który należy użyć do tłumaczenia sygnału w pierwszej kolejności.
+* Dobór odpowiedniej normy znacząco wpływa na skuteczność algorytmu.
+* Rożne normy sprawdzają się w różnych klasach sygnałów.
+
+
+=== Norma $l_2$ ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Norma $l_2$ ====
+Norma $l_2$ zwana metryką euklidesową w przestrzeni współrzędnych rzeczywistych dana jest wzorem:
+
+$$\|\mathbf x\| = \sqrt{\mathbf x \cdot \mathbf x} = \left(\sum_{i=1}^n x_i^2\right)^{1/2}$$
+
+Metryka euklidesowa jest również przypadkiem szczególnym (z parametrem $2$) szerszej klasy metryk wyznaczanych przez tzw. ,,metrykę Minkowskiego''.
+
+
+
+==== Norma $l_2$ w algorytmie MP ====
+Niech dany będzie zbiór funkcji (słownik) $D = \{g_1, g_2,
+\ldots, g_n\}$ takich, że $||g_i||=1$. Algorytm Matching Pursuit (MP) jest procedurą iteracyjną. W pierwszym
+kroku wybierana jest funkcja $g_{\gamma_0}$ dająca
+największy iloczyn skalarny z sygnałem $s$, po czym w
+każdym następnym kroku funkcja $g_{\gamma_n}$ jest
+analogicznie dopasowywana do residuum sygnału $R^n s$,
+pozostałego po odjęciu wyniku poprzedniej iteracji:
+  
+$$  
+\left \{
+\begin{array}{l}  
+R^0s=s \\
+R^ns=\langle R^ns,g_{\gamma_n} \rangle g_{\gamma_n}+R^{n+1}s\\
+g_{\gamma_n}=\arg \max |\langle R^ns, g_{\gamma_i}\rangle |
+\end{array}
+\right .
+$$
+
+==== Norma $l_2$ w algorytmie MP cd. ====
+Ortogonalność $R^{n+1} s$ i $g_{\gamma_n}$ w każdym kroku procedury
+implikuje zachowanie energii.
+
+%$$||s||^2 =\sum_{n=0}^{m-1} {\|\langle R^n s, \g_{\gamma_n}\rangle} /|^2 + ||R^m s||^2$$
+Jeśli słownik $D$ jest kompletny, procedura zbiega do~$f$:
+
+$$
+s=\sum_{n=0}^\infty {\langle R^n s,\; g_{\gamma_n}\rangle g_{\gamma_n} }
+$$
+
+
+=== Norma $l_1$ ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Norma $l_1$ ====
+'''Metryka Manhattan, taksówkowa, miejska, wielkomiejska''' – odległość dwóch punktów w tej metryce to suma wartości bezwzględnych różnic ich współrzędnych.
+
+
+W przestrzeni $\mathbb R^n$ metryka ta dana jest wzorem
+$$d_m(\mathbf x, \mathbf y) = \sum^n |x_k - y_k|$$
+
+Wyobraźmy sobie, że z jakichś powodów (kwadratowa sieć ulic przypominająca plan Manhattanu) możemy poruszać się jedynie w kierunkach wschód-zachód oraz północ-południe. Wtedy droga, jaką będziemy przebywać z jednego punktu do drugiego, wyniesie właśnie tyle, ile mówi o niej metryka miejska. W szczególności, jeśli $n = 1$, to
+$$d_m(\mathbf x, \mathbf y) = |x-y|$$
+
+==== Norma $l_1$ w algorytmie MP ====
+
+Niech dany będzie zbiór funkcji (słownik) $D = \{g_1, g_2,
+\ldots, g_n\}$ takich, że $||g_i||=1$. W każdym kroku algorytmu obliczane są iloczyny skalarne wszystkich funkcji
+ $g_{\gamma}$ z aktualnym residuum sygnału. Następnie wynik każdego takiego
+iloczynu jest kolejno odejmowany od residuum. Dekomponowany sygnał jest
+dyskretny, więc w wyniku otrzymywany jest ciąg liczb, będących różnicami
+w kolejnych próbkach sygnału. Ciąg ten jest sumowany. W danym kroku algorytmu
+wybierana jest ta funkcja ze słownika, dla której tak uzyskana suma jest najmniejsza.
+ 
+$$  
+\left \{
+\begin{array}{l}  
+R^0s=s \\
+R^ns=\langle R^ns,g_{\gamma_n} \rangle g_{\gamma_n}+R^{n+1}s\\
+g_{\gamma_n}=\arg \min | R^ns - g_{\gamma_i} |
+\end{array}
+\right .
+$$
+
+
+
+=== Porównanie ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== $l_2$ ====
+<[figure]
+<<<images/l2_2.png, scale=0.51>>>
+[figure]>
+
+==== $l_2$ ====
+<[figure]
+<<<images/l2.png, scale=0.38>>>
+[figure]>
+
+%==== Analizowany sygnał ====
+%<[figure]
+%<<<images/l2.png, scale=0.05>>>
+%[figure]>
+
+
+==== $l_1$ ====
+<[figure]
+<<<images/l1.png, scale=0.35>>>
+[figure]>
+
+==== Wrzeciona snu ====
+<[figure]
+<<<images/l1_l2.png, scale=0.3>>>
+[figure]>
+
+
+=== Implementacja ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Wielozmienny algorytm MP (MMP) ====
+W sygnale wielozmiennym (ang. multivariate) pojedynczą próbkę zastępuje wektor wartości opisujących stan układu w danej chwili, jak jak na przykład potencjał EEG mierzony z wielu elektrod jednocześnie. Jeśli chcemy w takich sygnałach szukać cech wspólnych, na przykład tych samych struktur czas-częstość występujących w sąsiednich kanałach zapisu EEG, musimy ustalić więzy określające które z parametrów funkcji dopasowywanych w każdej iteracji muszą być jednakowe (np. położenie w czasie i szerokość), a które mogą się się różnić w sąsiednich kanałach (w sposób oczywisty różne będą amplitudy, ale może się też zmieniać np. faza).
+
+==== Wielozmienny algorytm MP (MMP) ====
+<[figure]
+<<<images/c3_p4.png, scale=0.25>>>
+[figure]>
+
+==== Złożoność obliczeniowa ====
+Wielkość słownika zawierającego funkcję Gabora zależy m. in. od:
+* położenia
+* długości sygnału
+* skali
+* fazy
+Wielkość takiej przestrzeni parametrów może wynosić nawet $N^4$, co dla 20 sekundowego sygnału daje $4096^3 \cdot 4 = 274$TB pamięci.
+
+
+=== Podsumowanie ===
+
+==== Plan wykładu ====
+
+\tableofcontents[currentsection,currentsubsection]
+
+==== Podsumowanie -- zalety oraz wady algorytmu MP ====
+<[block]{Zalety}
+* Lepsze odwzorowanie słabych struktur
+* Brak wyrazów mieszanych
+* Dokładna informacja na temat składowych sygnału
+* Dla niektórych klas sygnałów niezastąpiony
+[block]>
+
+<[block]{Wady}
+* Trudny w implementacji
+* Złożony obliczeniowo
+* Zależny od doboru normy
+* Zależny od doboru słownika
+* Wymagający dużej wiedzy a priori na temat sygnału
+[block]>
+
+
